@@ -5,7 +5,9 @@ JWT를 활용한 인증 방식을 활용할 때의 Rest API의 구조를 잡아�
 
 ## JWT란
 [IETF RFC7519](https://tools.ietf.org/html/rfc7519)에 기반한 표준으로 상호 데이터 전송시 간편하고 안전하게 할 수 있도록 하는 기술입니다.
+
 JWT의 경우 제 3자에게 탈최당한 경우에 대한 보안에 취약하기 때문에 Access Token & Refresh Token 방식을 활용합니다.
+
 [쉽게 알아보는 서버 인증 2편(Access Token + Refresh Token) - 자유로운 오랑우탄](https://tansfil.tistory.com/59)
 여기서는 Access Token만 사용하는 방식을 활용해봅니다.
 
