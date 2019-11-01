@@ -47,9 +47,10 @@ public class AuthController {
 		// JWT 생성
 		String token = jwtTokenUtil.generateToken(
 				Stream.of(new Object[][] {
-				    { "userId", longinReqDto.getId() }
+				    { "userId", longinReqDto.getId() },
+				    { "userAuth", "admin" }
 				}).collect(Collectors.toMap(data -> (String) data[0], data -> (String) data[1]))
-				);
+				, 10000);
 		
 		return ResponseEntity.ok(token);
 	}

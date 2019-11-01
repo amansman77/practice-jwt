@@ -32,6 +32,12 @@ JWT의 경우 제 3자에게 탈최당한 경우에 대한 보안에 취약하�
 - API 활용시 사용자 아이디 획득
 - 권한에 따른 API 접근 권한 설정
 
+## 구조
+`AuthController` : JWT 발급
+`MenuController` : 권한 확인을 위한 서비스
+`AuthAspect` : RestAPI 호출 전에 권한을 확인하는 Aspect
+`GlobalRestControllerAdvice` : `UnauthorizedException`이 발생하면 HTTP 상태를 401로 반환
+
 ## 스타일
 - Http header의 Authorization 필드에 Bearer 타입으로 토큰 전송
 - 토큰에 대한 발급과 갱신만 제공하고 제거 기능은 제공하지 않음

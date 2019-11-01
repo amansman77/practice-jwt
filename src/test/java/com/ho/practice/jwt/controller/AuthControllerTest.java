@@ -47,14 +47,15 @@ public class AuthControllerTest {
 		given(
 				jwtTokenUtil.generateToken(
 						Stream.of(new Object[][] {
-						    { "userId", longinReqDto.getId() }
+						    { "userId", longinReqDto.getId() },
+						    { "userAuth", "admin" }
 						}).collect(Collectors.toMap(data -> (String) data[0], data -> (String) data[1]))
-						)
+						, 10000)
 				).willReturn("accesstoken");
 		
 		//when
 		final ResultActions actions = mockMvc.perform(post(serviceUrl + "/")
-					.header("Authorization", "")
+//					.header("Authorization", "")
 					.contentType(MediaType.APPLICATION_JSON_UTF8)
 					.content(objectMapper.writeValueAsString(longinReqDto))
 				)
