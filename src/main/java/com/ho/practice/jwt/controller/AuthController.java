@@ -1,10 +1,18 @@
 package com.ho.practice.jwt.controller;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ho.practice.jwt.util.JwtTokenUtil;
 
 /**
  * 사용자 인증 및 권한 관리를 위한 컨트롤러
@@ -16,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth/v0.1")
 public class AuthController {
 	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
 	/**
 	 * 로그인</br>
 	 * access token 발급</br>
@@ -26,8 +37,21 @@ public class AuthController {
 	 * @return
 	 */
 	@PostMapping(value = "/")
-	public String login(@RequestHeader String Authorization) {
-		return "accesstoken";
+	public ResponseEntity<String> login(@RequestBody LonginReqDto longinReqDto) {
+		// ID, PW 확인
+		if(longinReqDto.getId().equals("testid")
+				&& !longinReqDto.getPw().equals("testpw")) {
+			return new ResponseEntity<String>("", HttpStatus.UNAUTHORIZED);
+		}
+		
+		// JWT 생성
+		String token = jwtTokenUtil.generateToken(
+				Stream.of(new Object[][] {
+				    { "userId", longinReqDto.getId() }
+				}).collect(Collectors.toMap(data -> (String) data[0], data -> (String) data[1]))
+				);
+		
+		return ResponseEntity.ok(token);
 	}
 	
 	/**
